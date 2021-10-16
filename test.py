@@ -3,6 +3,7 @@ from time import sleep
 
 from kafka import KafkaConsumer, KafkaProducer
 
+BOOSTRAP_SERVERS = ['localhost:29092']
 
 def publish_message(producer_instance, topic_name, key, value):
     try:
@@ -19,7 +20,7 @@ def publish_message(producer_instance, topic_name, key, value):
 def connect_kafka_producer():
     _producer = None
     try:
-        _producer = KafkaProducer(bootstrap_servers=['kafka:29092'], api_version=(0, 10))
+        _producer = KafkaProducer(bootstrap_servers=BOOSTRAP_SERVERS)
     except Exception as ex:
         print('Exception while connecting Kafka')
         print(str(ex))
@@ -30,20 +31,17 @@ def connect_kafka_producer():
 
 
 if __name__ == '__main__':
-    print('Running Consumer..')
-    parsed_records = []
     topic_name = 'test'
-    parsed_topic_name = 'parsed_recipes'
+    
+    producer = connect_kafka_producer()
+    # producer.send(topic_name, b'boom')
+    publish_message(producer, topic_name, 'message','hello world')
 
     consumer = KafkaConsumer(topic_name, auto_offset_reset='earliest',
-                             bootstrap_servers=['localhost:9092'], api_version=(0, 10), consumer_timeout_ms=1000)
+                             bootstrap_servers=BOOSTRAP_SERVERS, consumer_timeout_ms=1000)
     for msg in consumer:
         print(msg.value)
     consumer.close()
     sleep(5)
 
-    # if len(parsed_records) > 0:
-    #     print('Publishing records..')
-    #     producer = connect_kafka_producer()
-    #     for rec in parsed_records:
-    #         publish_message(producer, parsed_topic_name, 'parsed', rec)
+    
