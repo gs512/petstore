@@ -21,7 +21,7 @@ class Room(UUID):
     warehouse_setup: dict = field(default_factory={'dog': 15, 'cat': 30, 'bird': 30})
     showroom_setup: dict = field(default_factory={'dog': 5, 'cat': 10, 'bird': 15})
 
-    def send_warehouse_inventory(self):
+    def display_warehouse_inventory(self):
         return {'pets':[pet._id for pet in self.animal_list],
         'setup': self.warehouse_setup
         }
@@ -64,11 +64,10 @@ class Room(UUID):
         return True
 
 
-    def send_showroom_inventory(self):
+    def display_showroom_inventory(self):
         return {'pets':self.showroom_display,
         'setup': self.showroom_setup
         }
-
 
     def sell_animal(self, pet:Animal):
         if pet not in self.animal_list:
@@ -82,7 +81,7 @@ class Room(UUID):
         
         self.sold_animal_list.append(pet)
         self.animal_list.remove(pet)
-        # trigger sale message
+        pet.date_of_sale = date.today()
         return True
 
     def option_animal(self, pet:Animal):
@@ -90,5 +89,21 @@ class Room(UUID):
             return False
         if pet.id_ not in self.showroom_display:
             return False
-        # trigger option message    
+        pet.date_of_option = date.today()
+        return True
         
+
+    def remove_animal(self, pet:Animal):
+        if pet.type not in self.warehouse_setup.keys():
+            return False
+        if pet not in self.animal_list:
+            return False
+
+        self.remove_animal_from_showroom(pet)
+        if pet._id in self.optioned_animal_list:
+            self.optioned_animal_list.remove(pet._id)
+
+        self.animal_list.remove(pet)
+        self.warehouse_setup[pet.type]-=1
+        
+        return True
