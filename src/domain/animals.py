@@ -20,6 +20,7 @@ class Animal(UUID):
     date_of_birth: datetime = field(default=None)
     is_refundable: bool = field(default=True)
     date_of_sale: datetime = field(default=None)
+    date_of_option: datetime = field(default=None)
     is_chipped: bool = field(default=True)
 
     def has_been_sold(self):
