@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-import uuid
 from datetime import datetime, date
-from uuids import UUID
-from animals import Animal, ChippedAnimal
+from domain.uuids import UUID
+from domain.animals import Animal, ChippedAnimal
 
 @dataclass
 class Room(UUID):

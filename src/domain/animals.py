@@ -1,5 +1,7 @@
-from uuids import UUID
+from dataclasses import dataclass, field
 from datetime import datetime, date
+from domain.uuids import UUID
+import uuid
 
 @dataclass
 class Animal(UUID):
