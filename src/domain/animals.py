@@ -1,7 +1,7 @@
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, date
 from domain import PetstoreEntity
-import uuid
 
 @dataclass
 class Animal(PetstoreEntity):
@@ -31,3 +31,4 @@ class ChippedAnimal(Animal):
         diff_in_months += today.month - self.date_of_birth.month
         return diff_in_months >= 2
 
+        
