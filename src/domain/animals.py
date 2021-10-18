@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 from datetime import datetime, date
-from domain.uuids import UUID
+from domain import PetstoreEntity
 import uuid
 
 @dataclass
-class Animal(UUID):
+class Animal(PetstoreEntity):
     name: str = field(init=True)
     type: str = field(init=True)
     description: str = field(init=True)

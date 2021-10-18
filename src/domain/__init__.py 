@@ -1,5 +1,10 @@
-import os
+from dataclasses import dataclass, field
+import uuid
 
-from src.domain.uuids import UUID
-from src.domain.animals import Animal, ChippedAnimal
-from src.domain.rooms import room
+@dataclass
+class PetstoreEntity():
+    id_: int = field(compare=False, init=False, default=None)
+
+    def __post_init__(self):
+        if self.id_ is None:
+            self.id_ = uuid.uuid4()
