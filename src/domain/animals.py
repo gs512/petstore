@@ -60,7 +60,7 @@ class ChippedAnimal(Animal):
 
     def set_chip(self, chip_id:uuid.uuid4, date_of_chip=None)->bool:
         if not self.can_be_chipped():
-            raise CannotBeChipped('Does not meet chipping regulations')
+            raise CannotBeChipped('Does not meet chipping requs')
             return False
         if chip_id is None:
             return False
