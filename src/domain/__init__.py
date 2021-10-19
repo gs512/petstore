@@ -3,7 +3,7 @@ import uuid
 
 @dataclass
 class PetstoreEntity():
-    id_: int = field(compare=False, init=False, default=None)
+    id_: int = field(compare=True, init=False, default=None)
 
     def __post_init__(self):
         if self.id_ is None:

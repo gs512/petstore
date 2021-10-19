@@ -5,7 +5,6 @@ from domain.animals import Animal, ChippedAnimal
 
 @dataclass
 class Room(PetstoreEntity):
-    id_: int = field(compare=False, init=False, default=None)
     showroom_display: list
     animal_list: list
     sold_animal_list: list
