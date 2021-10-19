@@ -3,6 +3,9 @@ from dataclasses import dataclass, field
 from datetime import datetime, date
 from domain import PetstoreEntity
 
+class CannotBeChipped(Exception):
+    pass
+
 @dataclass
 class Animal(PetstoreEntity):
     name: str = field(init=True)
@@ -57,6 +60,7 @@ class ChippedAnimal(Animal):
 
     def set_chip(self, chip_id:uuid.uuid4, date_of_chip=None)->bool:
         if not self.can_be_chipped():
+            raise CannotBeChipped('Does not meet chipping regulations')
             return False
         if chip_id is None:
             return False

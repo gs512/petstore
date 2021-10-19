@@ -45,4 +45,5 @@ def test_chipped_animal_setchip():
 
     chipped_cat.set_date_of_birth(date.today())
     assert chipped_cat.can_be_chipped() == False
-    assert chipped_cat.set_chip(chip_id) == False
+    with pytest.raises(Exception) as e_info:
+        chipped_cat.set_chip(chip_id)
