@@ -1,28 +1,30 @@
-from dataclasses import dataclass
-from domain.rooms import Room as r
+from abc import ABC, abstractmethod
+from domain import PetstoreEntity as pe
 
+class AbstractRepository(ABC):
 
-@dataclass
-class MemRepo:
+    @abstractmethod
+    def add(self, item:pe):
+        raise NotImplementedError
 
-    data: list
+    @abstractmethod
+    def get(self, reference) -> pe:
+        raise NotImplementedError
 
-    def list(self, filters=None):
-        result = [r.Room.from_dict(i) for i in self.data]
+    @abstractmethod
+    def list(self) -> list:
+        raise NotImplementedError
 
-        if filters is None:
-            return result
+class FakeRepository(AbstractRepository):
 
-        if 'code__eq' in filters:
-            result = [r for r in result if r.code == filters['code__eq']]
+    def __init__(self, pe):
+        self._pe = set(pe)
 
-        if 'price__eq' in filters:
-            result = [r for r in result if r.price == filters['price__eq']]
+    def add(self, pe):
+        self._pe.add(pe)
 
-        if 'price__lt' in filters:
-            result = [r for r in result if r.price < filters['price__lt']]
+    def get(self, reference):
+        return next(e for e in self._pe if e._id == reference)
 
-        if 'price__gt' in filters:
-            result = [r for r in result if r.price > filters['price__gt']]
-
-        return result
+    def list(self):
+        return list(self._pe)
